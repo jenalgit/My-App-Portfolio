@@ -3,5 +3,12 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="spotify_streamer_app">Spotify Streamer App</string>
+    <string name="football_scores_app">Football Scores App</string>
+    <string name="library_app">Library App</string>
+    <string name="build_it_bigger_app">Build It Bigger App</string>
+    <string name="xyz_reader_app">XYZ Reader App</string>
+    <string name="my_app">Reader\'s Den App</string>
+    <string name="title_main">My Nanodegree Apps!</string>
 
 </resources>

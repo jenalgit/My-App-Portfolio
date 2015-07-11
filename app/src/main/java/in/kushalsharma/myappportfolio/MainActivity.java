@@ -1,6 +1,5 @@
 package in.kushalsharma.myappportfolio;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -49,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
 
         // Set Title on Collapsing Toolbar Layout
-        mCollapsingToolbarLayout.setTitle("My Nanodegree Apps!");
-        mCollapsingToolbarLayout.setExpandedTitleColor(Color.parseColor("#FFFFFF"));
-        mCollapsingToolbarLayout.setCollapsedTitleTextColor(Color.parseColor("#FFFFFF"));
+        mCollapsingToolbarLayout.setTitle(getString(R.string.title_main));
+        mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.white));
+        mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
 
         // Set Layout Manager On Recycler View
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -62,12 +61,12 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // Add Items In Array List
-        mTitleList.add("Spotify Streamer App");
-        mTitleList.add("Football Scores App");
-        mTitleList.add("Library App");
-        mTitleList.add("Build It Bigger App");
-        mTitleList.add("XYZ Reader App");
-        mTitleList.add("Reader's Den App");
+        mTitleList.add(getString(R.string.spotify_streamer_app));
+        mTitleList.add(getString(R.string.football_scores_app));
+        mTitleList.add(getString(R.string.library_app));
+        mTitleList.add(getString(R.string.build_it_bigger_app));
+        mTitleList.add(getString(R.string.xyz_reader_app));
+        mTitleList.add(getString(R.string.my_app));
 
         // Specify Adapter
         mAdapter = new SimpleListAdapter(mTitleList, mRecyclerView, MainActivity.this);
