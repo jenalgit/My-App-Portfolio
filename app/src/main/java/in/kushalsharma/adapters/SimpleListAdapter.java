@@ -2,6 +2,7 @@ package in.kushalsharma.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 
 import java.util.ArrayList;
 
+import in.kushalsharma.myappportfolio.PopularMoviesActivity;
 import in.kushalsharma.myappportfolio.R;
 import in.kushalsharma.utils.Typefaces;
 
@@ -61,7 +63,14 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
         holder.getRippleView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showSnackBar("This is my " + holder.getTitleView().getText() + "!");
+                switch (position) {
+                    case 0:
+                        Intent mIntent = new Intent(mAct, PopularMoviesActivity.class);
+                        mAct.startActivity(mIntent);
+                        break;
+                    default:
+                        showSnackBar("This is my " + holder.getTitleView().getText() + "!");
+                }
             }
         });
 

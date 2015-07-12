@@ -1,0 +1,15 @@
+package in.kushalsharma.utils;
+
+/**
+ * Created by Kushal on 12/7/15.
+ * This is a helper class to get urls
+ */
+
+public class TmdbUrls {
+
+    public static String BASE_URL = "http://api.themoviedb.org/3/discover/movie?";
+    public static String API_KEY = "api_key=c6834e30cc99f62236db8a140ddd023e";
+    public static String SORT_POPULARITY = "&sort_by=popularity.desc";
+    public static String SORT_RECENT = "&certification_country=US&certification=R&sort_by=vote_average.desc";
+
+}

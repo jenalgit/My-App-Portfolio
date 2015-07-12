@@ -10,5 +10,7 @@
     <string name="xyz_reader_app">XYZ Reader App</string>
     <string name="my_app">Reader\'s Den App</string>
     <string name="title_main">My Nanodegree Apps!</string>
+    <string name="title_activity_popular_movies">Popular Movies App</string>
+    <string name="read_more">Read More</string>
 
 </resources>
