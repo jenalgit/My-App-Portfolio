@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="in.kushalsharma.myappportfolio.PopularMovieActivityFragment"
+        android:name="in.kushalsharma.fragments.PopularMovieActivityFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_popular_movie" />

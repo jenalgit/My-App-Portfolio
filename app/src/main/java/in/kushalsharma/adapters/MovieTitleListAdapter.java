@@ -2,9 +2,11 @@ package in.kushalsharma.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import in.kushalsharma.myappportfolio.MovieDetailsActivity;
 import in.kushalsharma.myappportfolio.R;
 import in.kushalsharma.utils.AppController;
 import in.kushalsharma.utils.PaletteNetworkImageView;
@@ -35,6 +38,9 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
     // Array List of String
     private ArrayList<String> mOverviewList = new ArrayList<>();
 
+    // Array List of String
+    private ArrayList<String> mIDList = new ArrayList<>();
+
     // Activity
     private Activity mAct;
 
@@ -51,14 +57,16 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
      * @param mImageList    Array List Of String
      * @param mDateList     Array List Of String
      * @param mOverviewList Array List Of String
+     * @param mIDList       Array List Of String
      * @param activity      Activity
      */
 
-    public MovieTitleListAdapter(ArrayList<String> mTitleList, ArrayList<String> mImageList, ArrayList<String> mDateList, ArrayList<String> mOverviewList, Activity activity) {
+    public MovieTitleListAdapter(ArrayList<String> mTitleList, ArrayList<String> mImageList, ArrayList<String> mDateList, ArrayList<String> mOverviewList, ArrayList<String> mIDList, Activity activity) {
         this.mTitleList = mTitleList;
         this.mImageList = mImageList;
         this.mDateList = mDateList;
         this.mOverviewList = mOverviewList;
+        this.mIDList = mIDList;
         this.mAct = activity;
 
         // Initialise Layout Inflater
@@ -103,6 +111,16 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
         holder.getMoreIconView().setColorFilter(holder.getBackgroundColor(), PorterDuff.Mode.MULTIPLY);
         holder.getReadMoreView().setTextColor(holder.getBackgroundColor());
 
+        holder.getCardView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent = new Intent(mAct, MovieDetailsActivity.class);
+                mIntent.putExtra("id", mIDList.get(position));
+                mIntent.putExtra("title", mTitleList.get(position));
+                mAct.startActivity(mIntent);
+            }
+        });
+
 
     }
 
@@ -139,6 +157,9 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
         private PaletteNetworkImageView mNetworkImageView;
         // Text View
         private TextView mViewReadMore;
+        // Card View
+        private CardView mCardView;
+
 
         // Color
         // Image View
@@ -154,7 +175,7 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
         public ViewHolder(View v) {
             super(v);
 
-            // Initialise variables
+            mCardView = (CardView) v.findViewById(R.id.card_view);
             mViewTitle = (TextView) v.findViewById(R.id.title);
             mViewDate = (TextView) v.findViewById(R.id.date);
             mViewOverview = (TextView) v.findViewById(R.id.overview);
@@ -163,6 +184,18 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
             mViewReadMore = (TextView) v.findViewById(R.id.read_more);
             backgroundColor = Color.parseColor("#60000000");
         }
+
+
+        /**
+         * This Method Returns Card View
+         *
+         * @return Card View
+         */
+
+        public CardView getCardView() {
+            return mCardView;
+        }
+
 
         /**
          * This Method Returns Title View

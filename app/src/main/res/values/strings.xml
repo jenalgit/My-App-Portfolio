@@ -12,5 +12,6 @@
     <string name="title_main">My Nanodegree Apps!</string>
     <string name="title_activity_popular_movie">Popular Movies App</string>
     <string name="read_more">Read More</string>
+    <string name="title_activity_movie_details">MovieDetailsActivity</string>
 
 </resources>
