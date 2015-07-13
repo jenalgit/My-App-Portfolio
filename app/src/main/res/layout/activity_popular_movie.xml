@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="in.kushalsharma.myappportfolio.PopularMoviesActivity">
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/popular_movies_toolbar"
@@ -15,10 +14,11 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_popular_movies"
+    <fragment
+        android:id="@+id/fragment"
+        android:name="in.kushalsharma.myappportfolio.PopularMovieActivityFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="2dp" />
+        tools:layout="@layout/fragment_popular_movie" />
 
 </LinearLayout>

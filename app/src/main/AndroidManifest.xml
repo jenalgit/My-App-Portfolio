@@ -20,8 +20,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PopularMoviesActivity"
-            android:label="@string/title_activity_popular_movies" />
+            android:name=".PopularMovieActivity"
+            android:label="@string/title_activity_popular_movie" />
     </application>
 
 </manifest>

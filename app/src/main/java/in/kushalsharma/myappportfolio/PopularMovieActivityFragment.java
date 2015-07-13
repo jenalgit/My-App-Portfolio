@@ -1,14 +1,13 @@
 package in.kushalsharma.myappportfolio;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -25,7 +24,10 @@ import in.kushalsharma.utils.AppController;
 import in.kushalsharma.utils.TmdbUrls;
 
 
-public class PopularMoviesActivity extends AppCompatActivity {
+/**
+ * A placeholder fragment containing a simple view.
+ */
+public class PopularMovieActivityFragment extends Fragment {
 
 
     // Recycler View
@@ -54,24 +56,18 @@ public class PopularMoviesActivity extends AppCompatActivity {
     private ArrayList<String> mOverviewList = new ArrayList<>();
 
 
+    public PopularMovieActivityFragment() {
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_popular_movies);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.popular_movies_toolbar);
-        setSupportActionBar(toolbar);
-
-        ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setTitle(getResources().getString(R.string.title_activity_popular_movies));
-            ab.setHomeButtonEnabled(true);
-            ab.setDisplayHomeAsUpEnabled(true);
-        }
+        View rootView = inflater.inflate(R.layout.fragment_popular_movie, container, false);
 
         // Initialize Variables
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_popular_movies);
-        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_popular_movies);
+        mLayoutManager = new LinearLayoutManager(getActivity());
 
         // Set Layout Manager On Recycler View
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -84,40 +80,14 @@ public class PopularMoviesActivity extends AppCompatActivity {
         getDataFromApi(url);
 
         // Specify Adapter
-        mAdapter = new MovieTitleListAdapter(mTitleList, mImageList, mDateList, mOverviewList, PopularMoviesActivity.this);
+        mAdapter = new MovieTitleListAdapter(mTitleList, mImageList, mDateList, mOverviewList, getActivity());
 
         // Set Adapter on Recycler View
         mRecyclerView.setAdapter(mAdapter);
 
-
+        return rootView;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_popular_movies, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        if (id == android.R.id.home) {
-            finish();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     private void getDataFromApi(String url) {
 
@@ -149,5 +119,4 @@ public class PopularMoviesActivity extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(getListData);
     }
-
 }

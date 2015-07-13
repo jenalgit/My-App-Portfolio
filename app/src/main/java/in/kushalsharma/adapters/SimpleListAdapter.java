@@ -14,7 +14,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 
 import java.util.ArrayList;
 
-import in.kushalsharma.myappportfolio.PopularMoviesActivity;
+import in.kushalsharma.myappportfolio.PopularMovieActivity;
 import in.kushalsharma.myappportfolio.R;
 import in.kushalsharma.utils.Typefaces;
 
@@ -65,7 +65,7 @@ public class SimpleListAdapter extends RecyclerView.Adapter<SimpleListAdapter.Vi
             public void onClick(View v) {
                 switch (position) {
                     case 0:
-                        Intent mIntent = new Intent(mAct, PopularMoviesActivity.class);
+                        Intent mIntent = new Intent(mAct, PopularMovieActivity.class);
                         mAct.startActivity(mIntent);
                         break;
                     default:
