@@ -89,9 +89,10 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
         holder.getImageView().setResponseObserver(new PaletteNetworkImageView.ResponseObserver() {
             @Override
             public void onSuccess() {
-                holder.setBackgroundColor(holder.getImageView().getDarkVibrantColor());
-                holder.getMoreIconView().setColorFilter(holder.getBackgroundColor(), PorterDuff.Mode.MULTIPLY);
-                holder.getReadMoreView().setTextColor(holder.getBackgroundColor());
+                holder.setDarkColor(holder.getImageView().getDarkVibrantColor());
+                holder.setLightColor(holder.getImageView().getVibrantColor());
+                holder.getMoreIconView().setColorFilter(holder.getDarkColor(), PorterDuff.Mode.MULTIPLY);
+                holder.getReadMoreView().setTextColor(holder.getDarkColor());
             }
 
             @Override
@@ -108,8 +109,8 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
         holder.getOverviewView().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));
         holder.getReadMoreView().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));
 
-        holder.getMoreIconView().setColorFilter(holder.getBackgroundColor(), PorterDuff.Mode.MULTIPLY);
-        holder.getReadMoreView().setTextColor(holder.getBackgroundColor());
+        holder.getMoreIconView().setColorFilter(holder.getDarkColor(), PorterDuff.Mode.MULTIPLY);
+        holder.getReadMoreView().setTextColor(holder.getDarkColor());
 
         holder.getCardView().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +118,8 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
                 Intent mIntent = new Intent(mAct, MovieDetailsActivity.class);
                 mIntent.putExtra("id", mIDList.get(position));
                 mIntent.putExtra("title", mTitleList.get(position));
+                mIntent.putExtra("darkColor", holder.getDarkColor());
+                mIntent.putExtra("lightColor", holder.getLightColor());
                 mAct.startActivity(mIntent);
             }
         });
@@ -146,7 +149,8 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        int backgroundColor;
+        int darkColor;
+        int lightColor;
         // Text View
         private TextView mViewTitle;
         // Text View
@@ -182,7 +186,8 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
             mNetworkImageView = (PaletteNetworkImageView) v.findViewById(R.id.image);
             mMoreIcon = (ImageView) v.findViewById(R.id.more_icon);
             mViewReadMore = (TextView) v.findViewById(R.id.read_more);
-            backgroundColor = Color.parseColor("#60000000");
+            darkColor = Color.parseColor("#60000000");
+            lightColor = Color.parseColor("#60000000");
         }
 
 
@@ -261,13 +266,20 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
             return mMoreIcon;
         }
 
-        public int getBackgroundColor() {
-            return backgroundColor;
+        public int getDarkColor() {
+            return darkColor;
         }
 
-        public void setBackgroundColor(int color) {
-            backgroundColor = color;
+        public void setDarkColor(int color) {
+            darkColor = color;
         }
 
+        public int getLightColor() {
+            return lightColor;
+        }
+
+        public void setLightColor(int color) {
+            lightColor = color;
+        }
     }
 }

@@ -1,15 +1,12 @@
 package in.kushalsharma.myappportfolio;
 
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MovieDetailsActivity extends AppCompatActivity {
-
+public class MovieDetailsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,25 +1,29 @@
 package in.kushalsharma.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.NetworkImageView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import in.kushalsharma.adapters.MovieDetailsAdapter;
 import in.kushalsharma.myappportfolio.R;
 import in.kushalsharma.utils.AppController;
-import in.kushalsharma.utils.PaletteNetworkImageView;
+import in.kushalsharma.utils.DividerItemDecoration;
 import in.kushalsharma.utils.TmdbUrls;
 
 
@@ -28,83 +32,87 @@ import in.kushalsharma.utils.TmdbUrls;
  */
 public class MovieDetailsActivityFragment extends Fragment {
 
-    private String ID;
-    private String backdropPath;
-    private String budget;
-    private String genres = "";
-    private String overView;
-    private String posterPath;
-    private String releaseDate;
-    private String status;
-    private Double voteAvg;
-    private TextView mRatingView, mGenreView, mDateView, mStatusView;
-    private PaletteNetworkImageView mPosterView;
-    private NetworkImageView mBackdropView;
+    // Recycler View
+    private RecyclerView mRecyclerView;
+
+    // Recycler View Adapter
+    private RecyclerView.Adapter mAdapter;
+
+    // Recycler View Layout Manager
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    // Collapsing Toolbar Layout
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
 
     // Toolbar
     private Toolbar mToolbar;
+
+    // ArrayList Of String
+    private ArrayList<String> rowZero = new ArrayList<>();
+
+    // Array List Of String
+    private ArrayList<String> rowOne = new ArrayList<>();
+
 
     public MovieDetailsActivityFragment() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movie_details, container, false);
-        Bundle mBundle = getActivity().getIntent().getExtras();
-        ID = mBundle.getString("id");
 
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_movie_details);
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar_layout_movie_details);
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar_movie_details);
+        mLayoutManager = new LinearLayoutManager(getActivity());
 
         // Set Title on Collapsing Toolbar Layout
-        mToolbar.setTitle(mBundle.getString("title"));
-        mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        mCollapsingToolbarLayout.setTitle(getActivity().getIntent().getExtras().getString("title"));
+        mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.white));
+        mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
 
-        mRatingView = (TextView) rootView.findViewById(R.id.rating);
-        mGenreView = (TextView) rootView.findViewById(R.id.genre);
-        mDateView = (TextView) rootView.findViewById(R.id.date);
-        mStatusView = (TextView) rootView.findViewById(R.id.status);
-        mPosterView = (PaletteNetworkImageView) rootView.findViewById(R.id.image);
-        mBackdropView = (NetworkImageView) rootView.findViewById(R.id.backdrop);
+        // Set Layout Manager On Recycler View
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
+        // Set Properties On Recycler View
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        String url = TmdbUrls.MOVIE_BASE_URL + ID + "?" + TmdbUrls.API_KEY;
-        JsonObjectRequest movieDataRequest = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
+        rowZero.add("/nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg");
+        rowZero.add("10");
+        rowZero.add("Okay");
+        rowZero.add("Old Date");
+        rowZero.add("status");
+
+        rowOne.add("this is overview");
+
+        getMovieDataFromID(getActivity().getIntent().getExtras().getString("id", null));
+
+        // Specify Adapter
+        mAdapter = new MovieDetailsAdapter(rowZero, rowOne, getActivity());
+
+        // Set Adapter on Recycler View
+        mRecyclerView.setAdapter(mAdapter);
+        return rootView;
+    }
+
+    private void getMovieDataFromID(String id) {
+        String url = TmdbUrls.MOVIE_BASE_URL + id + "?" + TmdbUrls.API_KEY;
+        JsonObjectRequest getDetails = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
-                    backdropPath = response.getString("backdrop_path");
-                    budget = response.getString("budget");
-                    overView = response.getString("overview");
-                    posterPath = response.getString("poster_path");
-                    releaseDate = response.getString("release_date");
-                    status = response.getString("status");
-                    voteAvg = response.getDouble("vote_average");
+                // TODO start here
 
-                    JSONArray mGenreArray = response.getJSONArray("genres");
-
-                    for (int i = 0; i < mGenreArray.length(); i++) {
-                        String genre = mGenreArray.getJSONObject(i).getString("name");
-                        if (i != mGenreArray.length() - 1) {
-                            genres = genres + genre + ", ";
-                        } else {
-                            genres = genres + genre + ".";
-                        }
-                    }
-
-                    mRatingView.setText(String.valueOf(voteAvg));
-                    mGenreView.setText(genres);
-                    mDateView.setText(releaseDate);
-                    mStatusView.setText(status);
-
-                    String imageUrl = "http://image.tmdb.org/t/p/w342/" + posterPath;
-                    mPosterView.setImageUrl(imageUrl, AppController.getInstance().getImageLoader());
-
-                    String backdropUrl = "http://image.tmdb.org/t/p/w780/" + backdropPath;
-                    mBackdropView.setImageUrl(backdropUrl, AppController.getInstance().getImageLoader());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    rowZero.add(response.getString("poster_path"));
+//                    rowZero.add(response.getString("vote_average"));
+//                    rowZero.add(response.getString("poster_path"));
+//                    rowZero.add(response.getString("poster_path"));
+//                    rowZero.add(response.getString("poster_path"));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -112,9 +120,6 @@ public class MovieDetailsActivityFragment extends Fragment {
 
             }
         });
-
-        AppController.getInstance().addToRequestQueue(movieDataRequest);
-
-        return rootView;
+        AppController.getInstance().addToRequestQueue(getDetails);
     }
 }

@@ -36,32 +36,25 @@ public class PopularMovieActivityFragment extends Fragment {
      * Variables for Endless Recycler View
      */
     int firstVisibleItem, visibleItemCount, totalItemCount;
+    int sortChoice;
     private int previousTotal = 0;
     private boolean loading = true;
     private int visibleThreshold = 3;
     private int pageCount = 1;
-
     // Recycler View
     private RecyclerView mRecyclerView;
-
     // Recycler View Adapter
     private RecyclerView.Adapter mAdapter;
-
     // Recycler View Layout Manager
     private LinearLayoutManager mLayoutManager;
-
     // Array List of String
     private ArrayList<String> mTitleList = new ArrayList<>();
-
     // Array List of String
     private ArrayList<String> mImageList = new ArrayList<>();
-
     // Array List of String
     private ArrayList<String> mDateList = new ArrayList<>();
-
     // Array List of String
     private ArrayList<String> mOverviewList = new ArrayList<>();
-
     // Array List of String
     private ArrayList<String> mIDList = new ArrayList<>();
 
@@ -121,8 +114,13 @@ public class PopularMovieActivityFragment extends Fragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (pageCount == 1) {
-            String url = TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_POPULARITY;
-            getDataFromApi(url);
+            if (sortChoice == 0) {
+                String url = TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_POPULARITY;
+                getDataFromApi(url);
+            } else if (sortChoice == 1) {
+                String url = TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_R_RATED;
+                getDataFromApi(url);
+            }
         } else {
             mRecyclerView.scrollToPosition(firstVisibleItem);
         }
@@ -162,6 +160,20 @@ public class PopularMovieActivityFragment extends Fragment {
         return rootView;
     }
 
+    private void refreshList() {
+
+        loading = true;
+        visibleThreshold = 3;
+        pageCount = 1;
+        mTitleList.clear();
+        mDateList.clear();
+        mIDList.clear();
+        mImageList.clear();
+        mOverviewList.clear();
+        mAdapter.notifyDataSetChanged();
+        String url = TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_POPULARITY;
+        getDataFromApi(url);
+    }
 
     private void getDataFromApi(String url) {
 
@@ -206,4 +218,5 @@ public class PopularMovieActivityFragment extends Fragment {
         Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_LONG)
                 .show();
     }
+
 }

@@ -1,7 +1,9 @@
 package in.kushalsharma.myappportfolio;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,6 +15,7 @@ public class PopularMovieActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_popular_movie);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.popular_movies_toolbar);
@@ -25,7 +28,6 @@ public class PopularMovieActivity extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -43,6 +45,16 @@ public class PopularMovieActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppTheme);
+            builder.setTitle("Dialog");
+            builder.setSingleChoiceItems(R.array.sort_name, 0, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            builder.setPositiveButton("OK", null);
+            builder.show();
             return true;
         }
 
@@ -53,4 +65,6 @@ public class PopularMovieActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

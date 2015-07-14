@@ -10,4 +10,13 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
 
+
+    <color name="primary_">#607D8B</color>
+    <color name="primary_dark_">#455A64</color>
+    <color name="primary_light_">#CFD8DC</color>
+    <color name="accent_">#9E9E9E</color>
+    <color name="primary_text_">#212121</color>
+    <color name="secondary_text_">#727272</color>
+    <color name="icons_">#FFFFFF</color>
+    <color name="divider_">#B6B6B6</color>
 </resources>
