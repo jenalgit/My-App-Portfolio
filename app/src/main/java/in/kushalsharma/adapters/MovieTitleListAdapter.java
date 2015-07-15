@@ -30,10 +30,8 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
     // Array List Of String
     private ArrayList<String> mImageList = new ArrayList<>();
 
-
     // Array List of String
     private ArrayList<String> mDateList = new ArrayList<>();
-
 
     // Array List of String
     private ArrayList<String> mOverviewList = new ArrayList<>();
@@ -149,26 +147,32 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        // Color Dark
         int darkColor;
+
+        // Color Light
         int lightColor;
+
         // Text View
         private TextView mViewTitle;
+
         // Text View
         private TextView mViewDate;
+
         // Text View
         private TextView mViewOverview;
+
         // Image View
         private PaletteNetworkImageView mNetworkImageView;
+
         // Text View
         private TextView mViewReadMore;
+
         // Card View
         private CardView mCardView;
 
-
-        // Color
         // Image View
         private ImageView mMoreIcon;
-
 
         /**
          * Constructor Of View Holder Class

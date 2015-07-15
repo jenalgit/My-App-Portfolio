@@ -19,4 +19,7 @@
     <color name="secondary_text_">#727272</color>
     <color name="icons_">#FFFFFF</color>
     <color name="divider_">#B6B6B6</color>
+
+    <color name="textColor">#80000000</color>
+    <color name="dividerColor">#20000000</color>
 </resources>

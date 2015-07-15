@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -35,28 +37,39 @@ public class PopularMovieActivityFragment extends Fragment {
     /**
      * Variables for Endless Recycler View
      */
+
     int firstVisibleItem, visibleItemCount, totalItemCount;
-    int sortChoice;
+    int sort = 0;
     private int previousTotal = 0;
     private boolean loading = true;
     private int visibleThreshold = 3;
     private int pageCount = 1;
+
+
     // Recycler View
     private RecyclerView mRecyclerView;
+
     // Recycler View Adapter
     private RecyclerView.Adapter mAdapter;
+
     // Recycler View Layout Manager
     private LinearLayoutManager mLayoutManager;
+
     // Array List of String
     private ArrayList<String> mTitleList = new ArrayList<>();
+
     // Array List of String
     private ArrayList<String> mImageList = new ArrayList<>();
+
     // Array List of String
     private ArrayList<String> mDateList = new ArrayList<>();
+
     // Array List of String
     private ArrayList<String> mOverviewList = new ArrayList<>();
+
     // Array List of String
     private ArrayList<String> mIDList = new ArrayList<>();
+
 
     public PopularMovieActivityFragment() {
     }
@@ -102,6 +115,35 @@ public class PopularMovieActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_popular_movie, container, false);
 
+        // Set Up Toolbar
+        Toolbar mToolbar = (Toolbar) rootView.findViewById(R.id.popular_movies_toolbar);
+        mToolbar.setTitle(getResources().getString(R.string.title_activity_popular_movie));
+        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
+        mToolbar.inflateMenu(R.menu.menu_popular_movie);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int menuItemID = item.getItemId();
+                if (menuItemID == R.id.action_most_popular) {
+                    sort = 0;
+                    refreshList(0);
+                    return true;
+
+                } else if (menuItemID == R.id.action_highest_rated) {
+                    sort = 1;
+                    refreshList(1);
+                    return true;
+                }
+                return false;
+            }
+        });
+
         // Initialize Variables
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_popular_movies);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -113,24 +155,20 @@ public class PopularMovieActivityFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        // Specify Adapter
+        mAdapter = new MovieTitleListAdapter(mTitleList, mImageList, mDateList, mOverviewList, mIDList, getActivity());
+
         if (pageCount == 1) {
-            if (sortChoice == 0) {
-                String url = TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_POPULARITY;
-                getDataFromApi(url);
-            } else if (sortChoice == 1) {
-                String url = TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_R_RATED;
-                getDataFromApi(url);
-            }
+            String url = TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_POPULARITY;
+            getDataFromApi(url);
         } else {
             mRecyclerView.scrollToPosition(firstVisibleItem);
         }
 
-        // Specify Adapter
-        mAdapter = new MovieTitleListAdapter(mTitleList, mImageList, mDateList, mOverviewList, mIDList, getActivity());
-
         // Set Adapter on Recycler View
         mRecyclerView.setAdapter(mAdapter);
 
+        // Set OnScrollListener For Endless Scroll
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
@@ -149,9 +187,17 @@ public class PopularMovieActivityFragment extends Fragment {
                     }
                 }
                 if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                    String url = TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_POPULARITY + "&page=" + String.valueOf(pageCount);
-                    showSnackBar("Loading Page " + String.valueOf(pageCount));
-                    getDataFromApi(url);
+                    if (sort == 0) {
+
+                        String url = TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_POPULARITY + "&page=" + String.valueOf(pageCount);
+                        showSnackBar(getString(R.string.loading_page) + String.valueOf(pageCount));
+                        getDataFromApi(url);
+                    } else {
+
+                        String url = TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_R_RATED + "&page=" + String.valueOf(pageCount);
+                        showSnackBar(getString(R.string.loading_page) + String.valueOf(pageCount));
+                        getDataFromApi(url);
+                    }
                     loading = true;
                 }
             }
@@ -160,23 +206,37 @@ public class PopularMovieActivityFragment extends Fragment {
         return rootView;
     }
 
-    private void refreshList() {
+    /**
+     * Method to Refresh list Depending on Position
+     *
+     * @param position List Type
+     */
+
+    private void refreshList(int position) {
 
         loading = true;
         visibleThreshold = 3;
         pageCount = 1;
+        previousTotal = 0;
         mTitleList.clear();
         mDateList.clear();
         mIDList.clear();
         mImageList.clear();
         mOverviewList.clear();
         mAdapter.notifyDataSetChanged();
-        String url = TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_POPULARITY;
-        getDataFromApi(url);
+        if (position == 0)
+            getDataFromApi(TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_POPULARITY);
+        else
+            getDataFromApi(TmdbUrls.BASE_URL + TmdbUrls.API_KEY + TmdbUrls.SORT_R_RATED);
     }
 
-    private void getDataFromApi(String url) {
+    /**
+     * Method To Get Data From Api
+     *
+     * @param url String Type URL
+     */
 
+    private void getDataFromApi(String url) {
 
         JsonObjectRequest getListData = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
@@ -200,7 +260,7 @@ public class PopularMovieActivityFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                showSnackBar(getString(R.string.error_msg));
             }
         });
 

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import in.kushalsharma.myappportfolio.R;
 import in.kushalsharma.utils.AppController;
+import in.kushalsharma.utils.Typefaces;
 
 /**
  * Created by Kushal on 14/7/15.
@@ -74,14 +75,22 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (position) {
             case 0:
                 String imageUrl = "http://image.tmdb.org/t/p/w185/" + rowZero.get(0);
+
+
+                ((ViewHolderInfo) holder).getRatingView().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));
+                ((ViewHolderInfo) holder).getViewGenre().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));
+                ((ViewHolderInfo) holder).getDateView().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));
+                ((ViewHolderInfo) holder).getStatusView().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));
+
                 ((ViewHolderInfo) holder).getPosterView().setImageUrl(imageUrl, AppController.getInstance().getImageLoader());
-                ((ViewHolderInfo) holder).getRatingView().setText(rowZero.get(1));
-                ((ViewHolderInfo) holder).getViewGenre().setText(rowZero.get(2));
-                ((ViewHolderInfo) holder).getDateView().setText(rowZero.get(3));
-                ((ViewHolderInfo) holder).getStatusView().setText(rowZero.get(4));
+                ((ViewHolderInfo) holder).getRatingView().setText("Rating - " + rowZero.get(1));
+                ((ViewHolderInfo) holder).getViewGenre().setText("Genre - " + rowZero.get(2));
+                ((ViewHolderInfo) holder).getDateView().setText("Release Date - " + rowZero.get(3));
+                ((ViewHolderInfo) holder).getStatusView().setText("Status - " + rowZero.get(4));
                 break;
             case 1:
-                ((ViewHolderOverview) holder).getOverviewView().setText(rowOne.get(0));
+                ((ViewHolderOverview) holder).getOverviewView().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));
+                ((ViewHolderOverview) holder).getOverviewView().setText("Overview - " + rowOne.get(0));
                 break;
         }
 
@@ -100,7 +109,7 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static class ViewHolderInfo extends RecyclerView.ViewHolder {
 
         // Network Image View
-        NetworkImageView mPosterView;
+        private NetworkImageView mPosterView;
 
         // Text View
         private TextView mViewRating;
@@ -129,6 +138,7 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mViewGenre = (TextView) v.findViewById(R.id.genre);
             mViewDate = (TextView) v.findViewById(R.id.date);
             mViewStatus = (TextView) v.findViewById(R.id.status);
+
         }
 
 
