@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -81,7 +79,7 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        String imageUrl = "http://image.tmdb.org/t/p/w185/" + mImageList.get(position);
+        String imageUrl = "http://image.tmdb.org/t/p/w342/" + mImageList.get(position);
         holder.getImageView().setImageUrl(imageUrl, AppController.getInstance().getImageLoader());
 
         holder.getImageView().setResponseObserver(new PaletteNetworkImageView.ResponseObserver() {
@@ -89,8 +87,7 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
             public void onSuccess() {
                 holder.setDarkColor(holder.getImageView().getDarkVibrantColor());
                 holder.setLightColor(holder.getImageView().getVibrantColor());
-                holder.getMoreIconView().setColorFilter(holder.getDarkColor(), PorterDuff.Mode.MULTIPLY);
-                holder.getReadMoreView().setTextColor(holder.getDarkColor());
+                holder.getCardView().setCardBackgroundColor(holder.getDarkColor());
             }
 
             @Override
@@ -100,15 +97,7 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
         });
 
         holder.getTitleView().setText(mTitleList.get(position));
-        holder.getDateView().setText(mDateList.get(position));
-        holder.getOverviewView().setText(mOverviewList.get(position));
         holder.getTitleView().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));
-        holder.getDateView().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));
-        holder.getOverviewView().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));
-        holder.getReadMoreView().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));
-
-        holder.getMoreIconView().setColorFilter(holder.getDarkColor(), PorterDuff.Mode.MULTIPLY);
-        holder.getReadMoreView().setTextColor(holder.getDarkColor());
 
         holder.getCardView().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,23 +145,12 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
         // Text View
         private TextView mViewTitle;
 
-        // Text View
-        private TextView mViewDate;
-
-        // Text View
-        private TextView mViewOverview;
 
         // Image View
         private PaletteNetworkImageView mNetworkImageView;
 
-        // Text View
-        private TextView mViewReadMore;
-
         // Card View
         private CardView mCardView;
-
-        // Image View
-        private ImageView mMoreIcon;
 
         /**
          * Constructor Of View Holder Class
@@ -185,11 +163,7 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
 
             mCardView = (CardView) v.findViewById(R.id.card_view);
             mViewTitle = (TextView) v.findViewById(R.id.title);
-            mViewDate = (TextView) v.findViewById(R.id.date);
-            mViewOverview = (TextView) v.findViewById(R.id.overview);
             mNetworkImageView = (PaletteNetworkImageView) v.findViewById(R.id.image);
-            mMoreIcon = (ImageView) v.findViewById(R.id.more_icon);
-            mViewReadMore = (TextView) v.findViewById(R.id.read_more);
             darkColor = Color.parseColor("#60000000");
             lightColor = Color.parseColor("#60000000");
         }
@@ -218,28 +192,6 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
 
 
         /**
-         * This Method Returns Date View
-         *
-         * @return Date View
-         */
-
-        public TextView getDateView() {
-            return mViewDate;
-        }
-
-
-        /**
-         * This Method Returns Overview View
-         *
-         * @return Overview View
-         */
-
-        public TextView getOverviewView() {
-            return mViewOverview;
-        }
-
-
-        /**
          * This Method Returns Image View
          *
          * @return Network Image View
@@ -249,26 +201,6 @@ public class MovieTitleListAdapter extends RecyclerView.Adapter<MovieTitleListAd
             return mNetworkImageView;
         }
 
-        /**
-         * This Method Returns Read More View
-         *
-         * @return Overview View
-         */
-
-        public TextView getReadMoreView() {
-            return mViewReadMore;
-        }
-
-
-        /**
-         * This Method Returns Image View
-         *
-         * @return More Icon
-         */
-
-        public ImageView getMoreIconView() {
-            return mMoreIcon;
-        }
 
         public int getDarkColor() {
             return darkColor;

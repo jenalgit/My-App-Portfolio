@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -42,7 +43,7 @@ public class PopularMovieActivityFragment extends Fragment {
     int sort = 0;
     private int previousTotal = 0;
     private boolean loading = true;
-    private int visibleThreshold = 3;
+    private int visibleThreshold = 4;
     private int pageCount = 1;
 
 
@@ -146,7 +147,7 @@ public class PopularMovieActivityFragment extends Fragment {
 
         // Initialize Variables
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_popular_movies);
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager = new GridLayoutManager(getActivity(), 2);
 
         // Set Layout Manager On Recycler View
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -215,7 +216,7 @@ public class PopularMovieActivityFragment extends Fragment {
     private void refreshList(int position) {
 
         loading = true;
-        visibleThreshold = 3;
+        visibleThreshold = 4;
         pageCount = 1;
         previousTotal = 0;
         mTitleList.clear();

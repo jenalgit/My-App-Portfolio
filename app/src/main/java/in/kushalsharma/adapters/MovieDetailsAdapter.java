@@ -74,7 +74,7 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         switch (position) {
             case 0:
-                String imageUrl = "http://image.tmdb.org/t/p/w185/" + rowZero.get(0);
+                String imageUrl = "http://image.tmdb.org/t/p/w342/" + rowZero.get(0);
 
 
                 ((ViewHolderInfo) holder).getRatingView().setTypeface(Typefaces.get(mAct, "RobotoSlab-Regular.ttf"));

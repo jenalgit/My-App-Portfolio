@@ -3,10 +3,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_bottom_padding">8dp</dimen>
-    <dimen name="padding_vertical_movie_title_list">10dp</dimen>
-    <dimen name="card_view_horizontal">8dp</dimen>
-    <dimen name="card_view_vertical">4dp</dimen>
-    <dimen name="card_view_radius">4dp</dimen>
+    <dimen name="padding_vertical_movie_title_list">8dp</dimen>
+    <dimen name="card_view_horizontal">2dp</dimen>
+    <dimen name="card_view_vertical">2dp</dimen>
+    <dimen name="card_view_radius">2dp</dimen>
     <dimen name="read_more_icon_margin">8dp</dimen>
     <dimen name="read_more_padding">12dp</dimen>
 </resources>
